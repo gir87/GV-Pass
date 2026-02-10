@@ -1,23 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GV Pass - Advanced Password Utility</title>
+    
+    <title>GV Pass</title>
+    <description>A high-performance, client-side password and cryptographic key generator with customizable complexity
+        and strength analysis.</description>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0f172a;
             color: #f8fafc;
         }
+
         .mono {
             font-family: 'JetBrains Mono', monospace;
         }
+
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -29,24 +41,18 @@
             border: 2px solid #ffffff;
             transition: transform 0.1s ease-in-out;
         }
+
         input[type="range"]::-webkit-slider-thumb:hover {
             transform: scale(1.2);
         }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
-  }
-}
-</script>
+
 </head>
+
 <body class="min-h-screen flex items-center justify-center p-4">
     <div id="root"></div>
     <!-- Explicitly link the entry point for the build tool to generate JS bundles -->
     <script type="module" src="./index.tsx"></script>
 </body>
+
 </html>
