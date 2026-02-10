@@ -1,0 +1,5 @@
+{
+  "name": "GV Pass Utility",
+  "description": "A high-performance, client-side password and cryptographic key generator with customizable complexity and strength analysis.",
+  "requestFramePermissions": []
+}
