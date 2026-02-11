@@ -32,25 +32,33 @@ export const generatePassword = (options: PasswordOptions): string => {
     result += charset[array[i] % charset.length];
   }
 
-  // Ensure at least one character of each selected type is present
-  // (Simple implementation of character set enforcement)
   return result;
 };
 
 /**
- * Generates a high-entropy Base64 key (32 bytes).
+ * Generates a high-entropy Base64 key.
+ * If urlFriendly is true, it uses Base64URL encoding (+ -> -, / -> _, no padding).
  */
-export const generateBase64Key = (byteSize: number = 32): string => {
+export const generateBase64Key = (byteSize: number = 32, urlFriendly: boolean = false): string => {
   const array = new Uint8Array(byteSize);
   window.crypto.getRandomValues(array);
   
-  // Custom manual base64 encoding to avoid issues with non-standard environments
   let binary = '';
   const len = array.byteLength;
   for (let i = 0; i < len; i++) {
     binary += String.fromCharCode(array[i]);
   }
-  return btoa(binary);
+  
+  let base64 = btoa(binary);
+  
+  if (urlFriendly) {
+    return base64
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  }
+  
+  return base64;
 };
 
 /**
@@ -62,11 +70,9 @@ export const calculateStrength = (password: string, options: PasswordOptions) =>
   let score = 0;
   const length = password.length;
 
-  // Length factor
   if (length >= 8) score += 1;
   if (length >= 16) score += 1;
 
-  // Variety factor
   let types = 0;
   if (options.uppercase) types++;
   if (options.lowercase) types++;

@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { ShieldCheck, Copy, RefreshCw, Key, Hash, Type, Binary, Settings2, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Copy, RefreshCw, Key, Hash, Type, Binary, Settings2, CheckCircle2, Link2 } from 'lucide-react';
 import { generatePassword, generateBase64Key, PasswordOptions, calculateStrength } from './utils/cryptoUtils';
 
 const App: React.FC = () => {
@@ -11,6 +11,7 @@ const App: React.FC = () => {
     numbers: true,
     symbols: true,
   });
+  const [isUrlFriendly, setIsUrlFriendly] = useState(false);
   const [password, setPassword] = useState('');
   const [copied, setCopied] = useState(false);
   const [mode, setMode] = useState<'password' | 'base64'>('password');
@@ -19,10 +20,10 @@ const App: React.FC = () => {
     if (mode === 'password') {
       setPassword(generatePassword(options));
     } else {
-      setPassword(generateBase64Key(32));
+      setPassword(generateBase64Key(32, isUrlFriendly));
     }
     setCopied(false);
-  }, [options, mode]);
+  }, [options, mode, isUrlFriendly]);
 
   useEffect(() => {
     refreshPassword();
@@ -55,12 +56,12 @@ const App: React.FC = () => {
       </div>
 
       <div className="px-8 pb-8 space-y-6">
-        {/* Output Section - Increased height and refined font sizing */}
+        {/* Output Section */}
         <div className="relative group">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
-          <div className="relative flex flex-col sm:flex-row items-center bg-slate-800/50 rounded-xl border border-slate-700/50 p-5 min-h-[5rem] transition-all duration-200">
+          <div className="relative flex flex-col sm:flex-row items-center bg-slate-800/50 rounded-xl border border-slate-700/50 p-5 min-h-[6rem] transition-all duration-200">
             <div className="flex-1 w-full overflow-hidden mb-4 sm:mb-0">
-              <span className="mono text-lg sm:text-xl text-white block break-all select-all leading-tight">
+              <span className="mono text-base sm:text-lg text-white block break-all select-all leading-relaxed">
                 {password || '••••••••'}
               </span>
             </div>
@@ -181,16 +182,23 @@ const App: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="bg-slate-950/50 border border-slate-800/50 p-6 rounded-2xl space-y-4">
-              <div className="flex items-center gap-3 text-emerald-400 mb-2">
-                <Binary className="w-6 h-6" />
-                <h3 className="font-semibold">Cryptographic Key Mode</h3>
+            <div className="space-y-4">
+              <div className="bg-slate-950/50 border border-slate-800/50 p-6 rounded-2xl space-y-4">
+                <div className="flex items-center gap-3 text-emerald-400 mb-2">
+                  <Binary className="w-6 h-6" />
+                  <h3 className="font-semibold">Cryptographic Key Mode</h3>
+                </div>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  Generates a 32-byte (256-bit) high-entropy key. Perfect for API keys, secret tokens, or salt values.
+                </p>
               </div>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Generates a 32-byte (256-bit) high-entropy key encoded in Base64. 
-                Perfect for API keys, secret tokens, or salt values.
-                Equivalent to <code className="bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">openssl rand -base64 32</code>.
-              </p>
+              
+              <OptionCheckbox
+                label="URL Friendly (Base64URL)"
+                checked={isUrlFriendly}
+                onChange={(checked) => setIsUrlFriendly(checked)}
+                icon={<Link2 className="w-4 h-4" />}
+              />
             </div>
           )}
         </div>
